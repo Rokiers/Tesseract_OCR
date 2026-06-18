@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+*.so
+.tmp/
+easyocr_models/
+saved_models/
+outputs/
+preprocessed/
+data/
+*.egg-info/
+dist/
+build/
+.env
+.venv/

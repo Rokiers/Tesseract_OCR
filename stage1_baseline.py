@@ -36,7 +36,7 @@ from pathlib import Path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from config import (
     PROJECT_ROOT, REAL_IMAGES_DIR, OUTPUTS_DIR, DEVICE,
-    CHARSET_STR, NUM_CHARS, PREPROCESS_CONFIG, ALLOWED_CHARS
+    CHARSET_STR, NUM_CHARS, PREPROCESS_CONFIG
 )
 
 
@@ -159,11 +159,10 @@ def run_baseline():
         results = reader.readtext(
             img,
             low_text=0.05,
-            detail=1,           # 1 = 返回详细信息（bbox+文字+置信度）
-            paragraph=True,    # False = 每行独立，True = 尝试合并成段落
-            contrast_ths=0.1,   # 低对比度文本检测阈值
-            text_threshold=0.6, # 文本置信度阈值（低于此值丢弃）
-            allowlist=ALLOWED_CHARS,
+            detail=1,
+            paragraph=False,
+            contrast_ths=0.1,
+            text_threshold=0.6,
             link_threshold=0.2
         )
 
@@ -171,7 +170,14 @@ def run_baseline():
 
         # ----- 显示结果 -----
         detected_texts = []
-        for bbox, text, confidence in results:
+        for item in results:
+            if len(item) == 3:
+                bbox, text, confidence = item
+            elif len(item) == 2:
+                bbox, text = item
+                confidence = 1.0
+            else:
+                continue
             print(f"    [{confidence:.2%}] {text!r}")
             detected_texts.append({
                 'text': text,
@@ -210,20 +216,8 @@ def run_baseline():
     with open(json_path, 'w', encoding='utf-8') as f:
         json.dump(all_results, f, ensure_ascii=False, indent=2)
 
-    # 字符混淆分析
-    confusion_report = analyze_confusion(all_results)
-
     print(f"  文本报告: {report_path}")
     print(f"  JSON 数据: {json_path}")
-
-    # 打印混淆分析
-    print(f"\n{'='*60}")
-    print(f"  ⚠️  易混淆字符分析")
-    print(f"{'='*60}")
-    for char, info in confusion_report.items():
-        print(f"  '{char}': 出现 {info['count']} 次, "
-              f"平均置信度 {info['avg_conf']:.1%} "
-              f"← {'⚠️ 低置信度' if info['avg_conf'] < 0.8 else '✅'}")
 
     return all_results
 
@@ -241,7 +235,14 @@ def draw_annotations(image_path: str, results: list, out_dir: str):
     if img is None:
         return
 
-    for bbox, text, confidence in results:
+    for item in results:
+        if len(item) == 3:
+            bbox, text, confidence = item
+        elif len(item) == 2:
+            bbox, text = item
+            confidence = 1.0
+        else:
+            continue
         # 画四边形框
         pts = np.array(bbox, dtype=np.int32)
         cv2.polylines(img, [pts], True, (0, 255, 0), 2)
@@ -255,70 +256,6 @@ def draw_annotations(image_path: str, results: list, out_dir: str):
     basename = os.path.splitext(os.path.basename(image_path))[0]
     out_path = os.path.join(out_dir, f"{basename}_annotated.png")
     cv2.imencode('.png', img)[1].tofile(out_path)
-
-
-# ============================================================
-# 辅助: 易混淆字符分析
-# ============================================================
-
-def analyze_confusion(all_results: list) -> dict:
-    """
-    分析哪些字符容易混淆。
-
-    易混淆字符组:
-      i / 1 / j / l / I      （竖线 + 点/钩的形状太像）
-      0 / o / O / Q          （圆形的差别太小）
-      5 / S / s               （曲线形状近似）
-      6 / b / G               （圆形 + 竖线组合）
-      2 / Z / z               （折线形状近似）
-
-    分析维度:
-      1. 统计这些字符的出现频率
-      2. 看它们的置信度（低置信度 = 模型不确定 = 可能混淆）
-    """
-
-    # 易混淆字符组
-    confusion_groups = {
-        'i': ['i', '1', 'j', 'l', 'I'],
-        'o': ['0', 'o', 'O', 'Q'],
-        's': ['5', 'S', 's'],
-        'b': ['6', 'b', 'G'],
-        'z': ['2', 'Z', 'z'],
-    }
-
-    # 收集所有识别出的文本
-    all_text = ''
-    all_detections = []
-    for result in all_results:
-        for det in result['detections']:
-            all_text += det['text']
-            all_detections.append(det)
-
-    # 对每个易混淆字符进行统计
-    report = {}
-    for group_key, chars in confusion_groups.items():
-        for char in chars:
-            # 统计出现次数
-            count = all_text.count(char)
-            if count == 0:
-                continue
-
-            # 统计这个字符出现时的平均置信度
-            confidences = []
-            for det in all_detections:
-                for c in det['text']:
-                    if c == char:
-                        confidences.append(det['confidence'])
-                        break
-
-            avg_conf = sum(confidences) / len(confidences) if confidences else 0
-
-            report[char] = {
-                'count': count,
-                'avg_conf': round(avg_conf, 4),
-            }
-
-    return report
 
 
 # ============================================================

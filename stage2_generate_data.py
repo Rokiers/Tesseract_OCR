@@ -53,7 +53,7 @@ import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from config import (
-    PROJECT_ROOT, FONT_PATH, CHARSET, CHARSET_STR,
+    PROJECT_ROOT, FONT_PATH, CHARSET_STR, NUM_CHARS,
     DATA_DIR, TRAIN_DIR, VAL_DIR, TEST_DIR,
     DATA_CONFIG
 )
@@ -67,50 +67,24 @@ def build_corpus() -> list:
     """
     构建渲染语料库。
 
-    语料来源:
-      1. 随机字符组合（默认）: 从你的字符集中随机组合出「伪单词」
-         比如 "ARMO", "SWRD", "+12 DEF" 这种暗黑风格词
-      2. 英文常用词: 用 NLTK 词表 / 维基词频
-      3. 自定义词表: 你手动指定（游戏装备词条等）
+    优先使用真实游戏词汇表 (vocabulary.txt)，包含:
+      - 装备名 (1279个): TWO-HANDED SWORD, BUTCHER'S PUPIL...
+      - 属性描述 (142个): FIRE RESIST, LIFE STOLEN PER HIT...
+      - UI文本 (39个): ONE-HAND DAMAGE, SOCKETED, CTRL...
 
-    为什么用字符集随机组合？
-      因为这是最小可行方式。你还没确认图片里具体有哪些词，
-      用字符集随机组合能确保覆盖所有字符。
-      后续你可以替换成真实的游戏词表。
+    如果词表不存在，回退到随机字符组合。
     """
     words = set()
 
-    # 方案1: 从字符集随机生成伪单词
-    # 对于每个单词长度 (3~15)，生成一些随机组合
-    for length in range(DATA_CONFIG.WORD_LEN_MIN, DATA_CONFIG.WORD_LEN_MAX + 1):
-        # 每种长度生成一定数量的词
-        num_per_length = DATA_CONFIG.TRAIN_SAMPLES // (DATA_CONFIG.WORD_LEN_MAX - DATA_CONFIG.WORD_LEN_MIN + 1)
-        for _ in range(num_per_length):
-            # 从字符集中随机选 length 个字符组成单词
-            word = ''.join(random.choices(CHARSET, k=length)).strip()
-            if word:  # 排除空白词
-                words.add(word)
-
-    # 方案2: 添加一些英文常用词（如果装了 NLTK）
-    # 这样模型能学到常见英文单词的上下文
-    try:
-        # 尝试加载英文词库（这是 Python 标准库自带！）
-        # /usr/share/dict/words 在大多数 Linux 系统都存在
-        if os.path.exists('/usr/share/dict/words'):
-            with open('/usr/share/dict/words', 'r') as f:
-                dict_words = [
-                    w.strip() for w in f.readlines()
-                    if w.strip().isalpha()
-                    and len(w.strip()) >= DATA_CONFIG.WORD_LEN_MIN
-                    and len(w.strip()) <= DATA_CONFIG.WORD_LEN_MAX
-                ]
-                # 只保留由我们字符集中字符组成的词
-                allowed_chars = set(CHARSET_STR)
-                filtered = [w for w in dict_words if all(c in allowed_chars for c in w)]
-                words.update(random.sample(filtered, min(2000, len(filtered))))
-                print(f"  ✅ 加载了 {len(filtered)} 个匹配字符集的英文词")
-    except Exception:
-        pass  # 没有 dict 文件也不影响，随机组合足够了
+    # 优先加载真实词表
+    vocab_path = os.path.join(PROJECT_ROOT, 'vocabulary.txt')
+    if os.path.exists(vocab_path):
+        with open(vocab_path, 'r', encoding='utf-8') as f:
+            for line in f:
+                word = line.strip()
+                if word and DATA_CONFIG.WORD_LEN_MIN <= len(word) <= DATA_CONFIG.WORD_LEN_MAX:
+                    words.add(word)
+        print(f"  📚 游戏词表: {len(words)} 个词")
 
     print(f"  ✅ 语料库共 {len(words)} 个词")
     return list(words)
@@ -138,36 +112,29 @@ def render_word(word: str, font: ImageFont.FreeTypeFont, width: int, height: int
       卷积核需要在相同尺寸的特征图上滑动。但宽度可以不固定，
       因为 RNN 能处理任意长度序列。
     """
-    # 创建空白图片（白色背景 = 255）
-    img = Image.new('L', (width, height), color=255)  # 'L' = 灰度模式
-
-    # 获取绘图上下文
-    draw = ImageDraw.Draw(img)
-
-    # ----- 计算文字在图片中的位置 -----
-    # getbbox() 返回 (x0, y0, x1, y1) = 文字的外接矩形
-    bbox = draw.textbbox((0, 0), word, font=font)
+    # 先测量文字尺寸，再创建合适宽度的图片
+    temp_img = Image.new('L', (1, 1), color=255)
+    temp_draw = ImageDraw.Draw(temp_img)
+    bbox = temp_draw.textbbox((0, 0), word, font=font)
     text_width = bbox[2] - bbox[0]
     text_height = bbox[3] - bbox[1]
 
-    # 如果文字太宽，调整图片宽度
-    if text_width > width - 4:  # 留 4px 边距
-        width = text_width + 4
+    # 确保图片至少能容纳文字 + 边距
+    width = max(width, text_width + 4)
 
-    # 居中放置文字
+    # 创建空白图片（白色背景 = 255）
+    img = Image.new('L', (width, height), color=255)
+    draw = ImageDraw.Draw(img)
+
+    # 居中放置
     x = (width - text_width) // 2
-    # 垂直居中: 考虑基线上方的 ascent
-    y = (height - text_height) // 2 - bbox[1]  # bbox[1] 可能是负的（above baseline）
+    y = (height - text_height) // 2 - bbox[1]
 
-    # 如果居中后溢出，重新创建图片
-    if x < 0 or y < 0:
-        img = Image.new('L', (max(width, text_width + 4), height), color=255)
-        draw = ImageDraw.Draw(img)
-        x = max(2, x)
-        y = max(2, y)
+    # 防止溢出
+    x = max(2, x)
+    y = max(2, y)
 
-    # ----- 绘制文字 -----
-    # 黑色文字 (color=0)，白色背景 (color=255)
+    # 绘制黑色文字
     draw.text((x, y), word, font=font, fill=0)
 
     return np.array(img), word
@@ -180,23 +147,10 @@ def render_word(word: str, font: ImageFont.FreeTypeFont, width: int, height: int
 def generate_dataset(output_dir: str, words: list, num_samples: int, split_name: str):
     """
     生成一份数据集（训练/验证/测试）。
-
-    流程:
-      for i in range(num_samples):
-        1. 随机选一个词
-        2. 随机选字体大小（模拟不同距离/分辨率的文字）
-        3. 随机选图片宽度（模拟不同长度的单词）
-        4. 渲染 → 保存为 PNG
-        5. 记录 label → labels.txt
-
-    labels.txt 格式（每行一个样本）:
-      train/00001.png ARMOR
-      train/00002.png SWORD
-      ...
     """
     os.makedirs(output_dir, exist_ok=True)
 
-    labels = []  # [(图片名, 文字), ...]
+    labels = []
 
     print(f"\n  生成 {split_name} 集 ({num_samples} 张)...")
 
@@ -204,35 +158,26 @@ def generate_dataset(output_dir: str, words: list, num_samples: int, split_name:
         if (i + 1) % 500 == 0:
             print(f"    [{i+1}/{num_samples}]")
 
-        # ----- 随机选一个词 -----
         word = random.choice(words)
 
-        # ----- 随机字体大小 -----
-        # 不同大小模拟不同字号 —— 就像游戏里不同位置的文字大小可能不同
         font_size = random.randint(DATA_CONFIG.FONT_SIZE_MIN,
                                     DATA_CONFIG.FONT_SIZE_MAX)
         font = ImageFont.truetype(FONT_PATH, size=font_size)
 
-        # ----- 随机图片宽度 -----
-        # 不同宽度模拟不同长度的单词 —— 模型需要学会处理各种宽度
         width = random.randint(DATA_CONFIG.IMG_WIDTH_MIN,
-                               DATA_CONFIG.IMG_WIDTH_MAX)
+                                DATA_CONFIG.IMG_WIDTH_MAX)
 
-        # ----- 渲染 -----
         img, label = render_word(word, font, width, DATA_CONFIG.IMG_HEIGHT)
 
-        # ----- 保存 -----
         filename = f"{i:05d}.png"
         filepath = os.path.join(output_dir, filename)
         Image.fromarray(img).save(filepath)
         labels.append(f"{filename}\t{label}")
 
-    # ----- 写 labels 文件 -----
     labels_path = os.path.join(output_dir, 'labels.txt')
     with open(labels_path, 'w', encoding='utf-8') as f:
         f.write('\n'.join(labels))
 
-    # ----- 写配置信息 -----
     meta_path = os.path.join(output_dir, 'meta.json')
     with open(meta_path, 'w', encoding='utf-8') as f:
         json.dump({
@@ -311,12 +256,7 @@ if __name__ == "__main__":
     # 训练集
     generate_dataset(TRAIN_DIR, words, DATA_CONFIG.TRAIN_SAMPLES, "训练集")
 
-    # 验证集 — 用不同的词避免「作弊」
-    val_words = [w for w in words if w not in set(
-        open(os.path.join(TRAIN_DIR, 'labels.txt')).read().split('\t')[1]
-        for _ in range(DATA_CONFIG.TRAIN_SAMPLES)
-    )]
-    # 简化: 用不同的随机种子选词
+    # 验证集
     random.seed(123)
     generate_dataset(VAL_DIR, words, DATA_CONFIG.VAL_SAMPLES, "验证集")
 

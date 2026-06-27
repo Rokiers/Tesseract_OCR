@@ -1,0 +1,239 @@
+﻿code,stat_name,desc_en
+abs-cold,item_absorbcold,Cold Absorb
+abs-cold%,item_absorbcold_percent,Cold Absorb
+abs-cold/lvl,item_absorb_cold_perlevel,Absorbs Cold Damage
+abs-cold/time,item_absorb_cold_bytime,Absorbs Cold Damage
+abs-fire,item_absorbfire,Fire Absorb
+abs-fire%,item_absorbfire_percent,Fire Absorb
+abs-fire/lvl,item_absorb_fire_perlevel,Absorbs Fire Damage
+abs-fire/time,item_absorb_fire_bytime,Absorbs Fire Damage
+abs-ltng,item_absorblight,Lightning Absorb
+abs-ltng%,item_absorblight_percent,Lightning Absorb
+abs-ltng/lvl,item_absorb_ltng_perlevel,Absorbs Lightning Damage
+abs-ltng/time,item_absorb_ltng_bytime,Absorbs Lightning Damage
+abs-mag,item_absorbmagic,Magic Absorb
+abs-mag%,item_absorbmagic_percent,Magic Absorb
+ac,armorclass,Defense
+ac%,item_armor_percent,Enhanced Defense
+ac%/lvl,item_armorpercent_perlevel,Enhanced Defense
+ac%/time,item_armorpercent_bytime,Enhanced Defense
+ac-hth,armorclass_vs_hth,Defense vs. Melee
+ac-miss,armorclass_vs_missile,Defense vs. Missile
+ac/lvl,item_armor_perlevel,Defense
+ac/time,item_armor_bytime,Defense
+addxp,item_addexperience,Experience Gained
+all-stats,strength,Strength
+allskills,item_allskills,All Skills
+ama,item_addclassskills,Amazon Skill Levels
+ass,item_addclassskills,Assassin Skill Levels
+att,tohit,Attack Rating
+att%,item_tohit_percent,Bonus to Attack Rating
+att%/lvl,item_tohitpercent_perlevel,Bonus to Attack Rating
+att%/time,item_tohitpercent_bytime,Bonus to Attack Rating
+att-dem/lvl,item_tohit_demon_perlevel,Attack Rating against Demons
+att-dem/time,item_tohit_demon_bytime,Attack Rating against Demons
+att-demon,item_demon_tohit,Attack Rating against Demons
+att-mon%,attack_vs_montype,Attack Rating versus
+att-skill,item_skillonattack,Chance to cast level on attack
+att-und/lvl,item_tohit_undead_perlevel,Attack Rating against Undead
+att-und/time,item_tohit_undead_bytime,Attack Rating against Undead
+att-undead,item_undead_tohit,Attack Rating against Undead
+att/lvl,item_tohit_perlevel,Attack Rating
+att/time,item_tohit_bytime,Attack Rating
+aura,item_aura,Level Aura When Equipped
+balance1,item_fastergethitrate,Faster Hit Recovery
+balance2,item_fastergethitrate,Faster Hit Recovery
+balance3,item_fastergethitrate,Faster Hit Recovery
+bar,item_addclassskills,Barbarian Skill Levels
+block,toblock,Increased Chance of Blocking
+block1,item_fasterblockrate,Faster Block Rate
+block2,item_fasterblockrate,Faster Block Rate
+block3,item_fasterblockrate,Faster Block Rate
+cast1,item_fastercastrate,Faster Cast Rate
+cast2,item_fastercastrate,Faster Cast Rate
+cast3,item_fastercastrate,Faster Cast Rate
+charge-noconsume,item_charge_noconsume,chance for finishing moves to not consume charges
+charged,item_charged_skill,Level
+cheap,item_reducedprices,Reduces all Vendor Prices
+cold-max,coldmaxdam,Maximum Cold Damage
+cold-min,coldmindam,Minimum Cold Damage
+crush,item_crushingblow,Chance of Crushing Blow
+crush/lvl,item_crushingblow_perlevel,Chance of Crushing Blow
+crush/time,item_crushingblow_bytime,Chance of Crushing Blow
+deadly,item_deadlystrike,Deadly Strike
+deadly/lvl,item_deadlystrike_perlevel,Deadly Strike
+deadly/time,item_deadlystrike_bytime,Deadly Strike
+death-skill,item_skillondeath,Chance to cast level when you Die
+demon-heal,item_healafterdemonkill,Life after each Demon Kill
+dex,dexterity,Dexterity
+dex/lvl,item_dexterity_perlevel,Dexterity
+dex/time,item_dexterity_bytime,Dexterity
+dmg,item_normaldamage,Damage
+dmg%/lvl,item_maxdamage_percent_perlevel,Enhanced Maximum Damage
+dmg%/time,item_maxdamage_percent_bytime,Enhanced Maximum Damage
+dmg-ac,item_damagetargetac,Monster Defense Per Hit
+dmg-cold,coldmindam,Minimum Cold Damage
+dmg-cold/lvl,item_cold_damagemax_perlevel,Maximum Cold Damage
+dmg-cold/time,item_cold_damagemax_bytime,Maximum Cold Damage
+dmg-dem/lvl,item_damage_demon_perlevel,Damage to Demons
+dmg-dem/time,item_damage_demon_bytime,Damage to Demons
+dmg-demon,item_demondamage_percent,Damage to Demons
+dmg-elem,firemindam,Minimum Fire Damage
+dmg-elem-max,firemaxdam,Maximum Fire Damage
+dmg-elem-min,firemindam,Minimum Fire Damage
+dmg-fire,firemindam,Minimum Fire Damage
+dmg-fire/lvl,item_fire_damagemax_perlevel,Maximum Fire Damage
+dmg-fire/time,item_fire_damagemax_bytime,Maximum Fire Damage
+dmg-ltng,lightmindam,Minimum Lightning Damage
+dmg-ltng/lvl,item_ltng_damagemax_perlevel,Maximum Lightning Damage
+dmg-ltng/time,item_ltng_damagemax_bytime,Maximum Lightning Damage
+dmg-mag,magicmindam,magic damage
+dmg-mag/lvl,item_magic_damagemax_perlevel,Maximum Magic Damage
+dmg-mon%,damage_vs_montype,Damage versus
+dmg-norm,mindamage,Minimum Damage
+dmg-pois,poisonmindam,Minimum Poison Damage
+dmg-pois/lvl,item_pois_damagemax_perlevel,Maximum Poison Damage
+dmg-pois/time,item_pois_damagemax_bytime,Maximum Poison Damage
+dmg-to-mana,item_damagetomana,Damage Taken Goes To Mana
+dmg-und/lvl,item_damage_undead_perlevel,Damage to Undead
+dmg-und/time,item_damage_undead_bytime,Damage to Undead
+dmg-undead,item_undeaddamage_percent,Damage to Undead
+dmg/lvl,item_maxdamage_perlevel,Maximum Damage
+dmg/time,item_maxdamage_bytime,Maximum Damage
+dru,item_addclassskills,Druid Skill Levels
+dur%,item_maxdurability_percent,Increase Maximum Durability
+ease,item_req_percent,Requirements
+enr,energy,Energy
+enr/lvl,item_energy_perlevel,Energy
+enr/time,item_energy_bytime,Energy
+explosivearrow,item_explosivearrow,Fires Explosive Arrows or Bolts
+extra-cold,passive_cold_mastery,Cold Skill Damage
+extra-fire,passive_fire_mastery,Fire Skill Damage
+extra-ltng,passive_ltng_mastery,Lightning Skill Damage
+extra-mag,passive_mag_mastery,Magic Skill Damage
+extra-pois,passive_pois_mastery,Poison Skill Damage
+extra-skill-dmg%-rand,passive_fire_mastery,Fire Skill Damage
+fire-max,firemaxdam,Maximum Fire Damage
+fire-min,firemindam,Minimum Fire Damage
+fireskill,item_elemskill,Fire Skills
+freeze,item_freeze,Freezes target
+gethit-skill,item_skillongethit,Chance to cast level when struck
+gold%,item_goldbonus,Extra Gold from Monsters
+gold%/lvl,item_find_gold_perlevel,Extra Gold from Monsters
+gold%/time,item_find_gold_bytime,Extra Gold from Monsters
+half-freeze,item_halffreezeduration,Half Freeze Duration
+heal-kill,item_healafterkill,Life after each Kill
+hit-skill,item_skillonhit,Chance to cast level on striking
+howl,item_howl,Hit Causes Monster to Flee
+hp,maxhp,Life
+hp%,item_maxhp_percent,Increase Maximum Life
+hp/lvl,item_hp_perlevel,Life
+hp/time,item_hp_bytime,Life
+ignore-ac,item_ignoretargetac,Ignore Target's Defense
+kick,item_kickdamage,Kick Damage
+kick/lvl,item_kick_damage_perlevel,Kick Damage
+kick/time,item_kick_damage_bytime,Kick Damage
+kill-skill,item_skillonkill,Chance to cast level when you Kill an Enemy
+knock,item_knockback,Knockback
+levelup-skill,item_skillonlevelup,Chance to cast level when you Level-Up
+lifesteal,lifedrainmindam,Life stolen per hit
+light,item_lightradius,Light Radius
+light-thorns,item_attackertakeslightdamage,Attacker Takes Lightning Damage
+ltng-max,lightmaxdam,Maximum Lightning Damage
+ltng-min,lightmindam,Minimum Lightning Damage
+mag%,item_magicbonus,Better Chance of Getting Magic Items
+mag%/lvl,item_find_magic_perlevel,Better Chance of Getting Magic Items
+mag%/time,item_find_magic_bytime,Better Chance of Getting Magic Items
+magicarrow,item_magicarrow,Fires Magic Arrows
+mana,maxmana,Mana
+mana%,item_maxmana_percent,Increase Maximum Mana
+mana-kill,item_manaafterkill,Mana after each Kill
+mana/lvl,item_mana_perlevel,Mana
+mana/time,item_mana_bytime,Mana
+manasteal,manadrainmindam,Mana stolen per hit
+move1,item_fastermovevelocity,Faster Run/Walk
+move2,item_fastermovevelocity,Faster Run/Walk
+move3,item_fastermovevelocity,Faster Run/Walk
+nec,item_addclassskills,Necromancer Skill Levels
+nofreeze,item_cannotbefrozen,Cannot Be Frozen
+noheal,item_preventheal,Prevent Monster Heal
+openwounds,item_openwounds,Chance of Open Wounds
+oskill,item_nonclassskill,to
+pal,item_addclassskills,Paladin Skill Levels
+pierce,item_pierce,Piercing Attack
+pierce-cold,passive_cold_pierce,- to Enemy Cold Resistance
+pierce-dmg,passive_dmg_pierce,- to Enemy Physical Damage Resistance
+pierce-fire,passive_fire_pierce,- to Enemy Fire Resistance
+pierce-immunity-cold,item_pierce_cold_immunity,Monster Cold Immunity is Sundered
+pierce-immunity-damage,item_pierce_damage_immunity,Monster Physical Immunity is Sundered
+pierce-immunity-fire,item_pierce_fire_immunity,Monster Fire Immunity is Sundered
+pierce-immunity-light,item_pierce_light_immunity,Monster Lightning Immunity is Sundered
+pierce-immunity-magic,item_pierce_magic_immunity,Monster Magic Immunity is Sundered
+pierce-immunity-poison,item_pierce_poison_immunity,Monster Poison Immunity is Sundered
+pierce-ltng,passive_ltng_pierce,- to Enemy Lightning Resistance
+pierce-mag,passive_mag_pierce,- to Enemy Magic Resistance
+pierce-pois,passive_pois_pierce,- to Enemy Poison Resistance
+pois-max,poisonmaxdam,Maximum Poison Damage
+pois-min,poisonmindam,Minimum Poison Damage
+randclassskill,item_addclassskills,Amazon Skill Levels
+reanimate,item_reanimate,Reanimate as
+red-dmg,normal_damage_reduction,Damage Reduced by
+red-dmg%,damageresist,Physical Damage Received Reduced by
+red-mag,magic_damage_reduction,Magic Damage Reduced by
+reduce-ac,item_fractionaltargetac,- Target Defense
+regen,hpregen,Replenish Life
+regen-mana,manarecoverybonus,Regenerate Mana
+regen-stam,staminarecoverybonus,Heal Stamina Plus
+regen-stam/lvl,item_regenstamina_perlevel,Heal Stamina Plus
+regen-stam/time,item_regenstamina_bytime,Heal Stamina Plus
+rep-dur,item_replenish_durability,Repairs durability per second
+rep-quant,item_replenish_quantity,Replenishes quantity
+res-all,fireresist,Fire Resist
+res-all-max,maxfireresist,Maximum Fire Resist
+res-cold,coldresist,Cold Resist
+res-cold-max,maxcoldresist,Maximum Cold Resist
+res-cold/lvl,item_resist_cold_perlevel,Cold Resist
+res-cold/time,item_resist_cold_bytime,Cold Resist
+res-fire,fireresist,Fire Resist
+res-fire-max,maxfireresist,Maximum Fire Resist
+res-fire/lvl,item_resist_fire_perlevel,Fire Resist
+res-fire/time,item_resist_fire_bytime,Fire Resist
+res-ltng,lightresist,Lightning Resist
+res-ltng-max,maxlightresist,Maximum Lightning Resist
+res-ltng/lvl,item_resist_ltng_perlevel,Lightning Resist
+res-ltng/time,item_resist_ltng_bytime,Lightning Resist
+res-mag,magicresist,Magic Resist
+res-mag-max,maxmagicresist,Maximum Magic Resist
+res-pois,poisonresist,Poison Resist
+res-pois-len,item_poisonlengthresist,Poison Length Reduced by
+res-pois-max,maxpoisonresist,Maximum Poison Resist
+res-pois/lvl,item_resist_pois_perlevel,Poison Resist
+res-pois/time,item_resist_pois_bytime,Poison Resist
+rip,item_restinpeace,Slain Monsters Rest in Peace
+skill,item_singleskill,to
+skill-rand,item_singleskill,to
+skilltab,item_addskill_tab,Javelin and Spear Skills
+slow,item_slow,Slows Target by
+sor,item_addclassskills,Sorceress Skill Levels
+stack,item_extra_stack,Increased Stack Size
+stam,maxstamina,Maximum Stamina
+stam/lvl,item_stamina_perlevel,Maximum Stamina
+stam/time,item_stamina_bytime,Maximum Stamina
+stamdrain,item_staminadrainpct,Slower Stamina Drain
+str,strength,Strength
+str/lvl,item_strength_perlevel,Strength
+str/time,item_strength_bytime,Strength
+stupidity,item_stupidity,Hit Blinds Target
+swing1,item_fasterattackrate,Increased Attack Speed
+swing2,item_fasterattackrate,Increased Attack Speed
+swing3,item_fasterattackrate,Increased Attack Speed
+thorns,item_attackertakesdamage,Attacker Takes Damage
+thorns/lvl,item_thorns_perlevel,Attacker Takes Damage
+throw,item_throwable,Throwable
+vit,vitality,Vitality
+vit/lvl,item_vitality_perlevel,Vitality
+vit/time,item_vitality_bytime,Vitality
+war,item_addclassskills,Barbarian Skill Levels
+war-tab-rand,item_addskill_tab,Javelin and Spear Skills
+wounds/lvl,item_openwounds_perlevel,Chance of Open Wounds
+wounds/time,item_openwounds_bytime,Chance of Open Wounds

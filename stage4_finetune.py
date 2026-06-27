@@ -209,7 +209,10 @@ def build_model():
         model_storage_directory=os.path.join(PROJECT_ROOT, 'easyocr_models'),
         verbose=False
     )
-    pretrained_model = reader.recognizer.model
+    pretrained_model = reader.recognizer
+
+    if isinstance(pretrained_model, torch.nn.DataParallel):
+        pretrained_model = pretrained_model.module
     pretrained_model.to(DEVICE)
     pretrained_model.eval()
 

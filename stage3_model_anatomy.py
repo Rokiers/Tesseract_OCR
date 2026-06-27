@@ -92,9 +92,11 @@ def load_model():
     )
 
     # 拿到识别器模型
-    model = reader.recognizer.model
+    model = reader.recognizer
 
-    # 移到对应设备
+    if isinstance(model, torch.nn.DataParallel):
+        model = model.module
+
     model = model.to(DEVICE)
     model.eval()  # 评估模式（不计算梯度，节省内存）
 
